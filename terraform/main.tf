@@ -24,9 +24,15 @@ provider "port" {
   secret    = var.port_client_secret # or set the env var PORT_CLIENT_SECRET
 }
 
+resource "azurerm_resource_group" "nameresourcegroup" {
+  name = "sample-rg"
+  location = var.location
+
+}
+
 resource "azurerm_storage_account" "storage_account" {
   name                = var.storage_account_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.nameresourcegroup.name
 
   location                 = var.location
   account_tier             = "Standard"
